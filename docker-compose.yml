@@ -21,7 +21,7 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./nginx/dist:/usr/share/nginx/html
+      - ./nginx/html/dist:/usr/share/nginx/html
       - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/conf/conf.d:/etc/nginx/conf.d
     environment:

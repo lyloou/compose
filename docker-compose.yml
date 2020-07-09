@@ -1,19 +1,19 @@
 version: "3.3"
 services:
-  # ali-flow:
-  #   container_name: ali-flow
-  #   image: openjdk:8
-  #   restart: always
-  #   ports:
-  #     - 6011:6010
-  #   volumes:
-  #     - ./app/admin/admin-api.jar:/admin-api.jar
-  #     - ./app/logs:/mnt/logs/
-  #     # 指定容器时间为宿主机时间
-  #     - /etc/localtime:/etc/localtime
-  #   environment:
-  #     - TZ=Asia/Shanghai
-  #   entrypoint: java -server -Xms512m -Xmx512m -Xmn200m -Xss256k -jar -Dserver.port=6010 -Dspring.profiles.active=dev /admin-api.jar
+  app-love:
+    container_name: app-love
+    image: openjdk:8
+    restart: always
+    ports:
+      - 9121:9121
+    volumes:
+      - ./app/app-love.jar:/app-love.jar
+      - ./app/logs:/logs/
+      # 指定容器时间为宿主机时间
+      - /etc/localtime:/etc/localtime
+    environment:
+      - TZ=Asia/Shanghai
+    entrypoint: java -server -Xms512m -Xmx512m -Xmn200m -Xss256k -jar -Dserver.port=9121 -Dspring.profiles.active=dev /app-love.jar
   ali-nginx:
     container_name: ali-nginx
     image: nginx:latest

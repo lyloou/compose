@@ -50,6 +50,21 @@ services:
       - TZ=Asia/Shanghai
     networks:
       extnetwork:
+  ali-redis:
+    container_name: ali-redis
+    image: redis:latest
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - /etc/redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - /etc/localtime:/etc/localtime
+      - /etc/timezone:/etc/timezone
+    environment:
+      - TZ=Asia/Shanghai
+    entrypoint: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      extnetwork:
 networks:
   extnetwork:
     ipam:

@@ -46,7 +46,7 @@ services:
       - /etc/localtime:/etc/localtime
     environment:
       - TZ=Asia/Shanghai
-    entrypoint: java -server -Xms512m -Xmx512m -Xmn200m -Xss256k -jar -Dserver.port=8080 -Dspring.profiles.active=private /app.jar
+    entrypoint: java -server -Xms512m -Xmx512m -Xmn200m -Xss256k -jar -Dserver.port=8080 -Dspring.profiles.active=dev /app.jar
     networks:
       extnetwork:
   ali-nginx:

@@ -46,6 +46,7 @@ services:
       - ./nginx/conf/conf.d:/etc/nginx/conf.d
       - /root/w/cert/fund.lyloou.com:/cert
       - /root/w/python/data:/fund
+      - /root/w/fund/data:/fund2
     environment:
       - TZ=Asia/Shanghai
     networks:

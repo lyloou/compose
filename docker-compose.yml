@@ -49,6 +49,23 @@ services:
     entrypoint: java -server -Xms512m -Xmx512m -Xmn200m -Xss256k -jar -Dserver.port=8080 -Dspring.profiles.active=dev /app.jar
     networks:
       extnetwork:
+  app-linker:
+    container_name: app-linker
+    image: openjdk:8
+    restart: always
+    ports:
+      - 8091:8080
+    volumes:
+      - /var/local/workspace/java/app-linker/app.jar:/app.jar
+      - /var/local/workspace/java/app-linker/attachment:/var/attachment
+      - /var/local/workspace/java/app-linker/logs:/logs/
+      # 指定容器时间为宿主机时间
+      - /etc/localtime:/etc/localtime
+    environment:
+      - TZ=Asia/Shanghai
+    entrypoint: java -server -Xms512m -Xmx512m -Xmn200m -Xss256k -jar -Dserver.port=8080 -Dspring.profiles.active=dev /app.jar
+    networks:
+      extnetwork:
   ali-nginx:
     container_name: ali-nginx
     image: nginx:latest

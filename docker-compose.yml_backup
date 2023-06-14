@@ -1,5 +1,37 @@
 version: "3.3"
 services:
+  app-love:
+    container_name: app-love
+    image: openjdk:8
+    restart: always
+    ports:
+      - 9121:9121
+    volumes:
+      - /root/w/java/spring-master/spring-lovelist/target/spring-lovelist.jar:/app.jar
+      - /logs:/logs/
+      # 指定容器时间为宿主机时间
+      - /etc/localtime:/etc/localtime
+    environment:
+      - TZ=Asia/Shanghai
+    entrypoint: java -server -Xms512m -Xmx512m -Xmn200m -Xss256k -jar -Dserver.port=9121 -Dspring.profiles.active=private /app.jar
+    networks:
+      extnetwork:
+  app-flow:
+    container_name: app-flow
+    image: openjdk:8
+    restart: always
+    ports:
+      - 8888:8888
+    volumes:
+      - /root/w/java/flow-server/target/flow-0.0.1.jar:/app.jar
+      - /logs:/logs/
+      # 指定容器时间为宿主机时间
+      - /etc/localtime:/etc/localtime
+    environment:
+      - TZ=Asia/Shanghai
+    entrypoint: java -server -Xms256m -Xmx256m -Xmn200m -Xss256k -jar -Dserver.port=8888 -Dspring.profiles.active=private /app.jar
+    networks:
+      extnetwork:
   app-admin:
     container_name: app-admin
     image: openjdk:8
@@ -14,7 +46,7 @@ services:
       - /etc/localtime:/etc/localtime
     environment:
       - TZ=Asia/Shanghai
-    entrypoint: java -server -Xms50m -Xmx245m -Xmn200m -Xss256k -jar -Dserver.port=8080 -Dspring.profiles.active=dev /app.jar
+    entrypoint: java -server -Xms512m -Xmx512m -Xmn200m -Xss256k -jar -Dserver.port=8080 -Dspring.profiles.active=dev /app.jar
     networks:
       extnetwork:
   momo-stock-index:
@@ -30,7 +62,7 @@ services:
       - /etc/localtime:/etc/localtime
     environment:
       - TZ=Asia/Shanghai
-    entrypoint: java -server -Xms50m -Xmx256m -Xmn200m -Xss256k -jar -Dserver.port=8080 -Dspring.profiles.active=prod /app.jar
+    entrypoint: java -server -Xms512m -Xmx512m -Xmn200m -Xss256k -jar -Dserver.port=8080 -Dspring.profiles.active=prod /app.jar
     networks:
       extnetwork:
   ali-nginx:
@@ -47,8 +79,7 @@ services:
       - ./nginx/conf/conf.d:/etc/nginx/conf.d
       - /root/w/cert/fund.lyloou.com:/cert
       - /root/w/python/data:/fund
-      #- /root/w/fund/data:/fund2
-      - /root/w/momo-all/momo-python/fund/data:/fund2
+      - /root/w/fund/data:/fund2
     environment:
       - TZ=Asia/Shanghai
     networks:

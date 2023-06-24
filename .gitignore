@@ -1,2 +1,4 @@
 .history
 *.un~
+mysql57/data
+redis/data

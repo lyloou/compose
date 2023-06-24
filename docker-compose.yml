@@ -10,7 +10,6 @@ services:
       - /var/local/workspace/java/app-admin/app.jar:/app.jar
       - /var/local/workspace/java/app-admin/attachment:/var/attachment
       - /var/local/workspace/java/app-admin/logs:/logs/
-      # 指定容器时间为宿主机时间
       - /etc/localtime:/etc/localtime
     environment:
       - TZ=Asia/Shanghai
@@ -26,15 +25,14 @@ services:
     volumes:
       - /var/local/workspace/java/momo-stock-index/app.jar:/app.jar
       - /var/local/workspace/java/momo-stock-index/logs:/logs/
-      # 指定容器时间为宿主机时间
       - /etc/localtime:/etc/localtime
     environment:
       - TZ=Asia/Shanghai
     entrypoint: java -server -Xms50m -Xmx256m -Xmn200m -Xss256k -jar -Dserver.port=8080 -Dspring.profiles.active=prod /app.jar
     networks:
       extnetwork:
-  ali-nginx:
-    container_name: ali-nginx
+  nginx:
+    container_name: nginx
     image: nginx:latest
     restart: always
     ports:
@@ -53,14 +51,15 @@ services:
       - TZ=Asia/Shanghai
     networks:
       extnetwork:
-  ali-redis:
-    container_name: ali-redis
+  redis:
+    container_name: redis
     image: redis:latest
     restart: always
     ports:
       - 6379:6379
     volumes:
-      - /etc/redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/data:/data
       - /etc/localtime:/etc/localtime
       - /etc/timezone:/etc/timezone
     environment:
@@ -68,8 +67,30 @@ services:
     entrypoint: redis-server /usr/local/etc/redis/redis.conf
     networks:
       extnetwork:
+  mysql57:
+    container_name: mysql57
+    image: mysql:5.7.31
+    restart: always
+    ports:
+      - 3306:3306
+    privileged: true
+    volumes:
+      - ./mysql57/log:/var/log/mysql 
+      - ./mysql57/conf/my.cnf:/etc/mysql/my.cnf
+      - ./mysql57/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "lyloou@06"
+      MYSQL_USER: 'lyloou'
+      MYSQL_PASS: 'lyloou@06'
+    command: [
+        '--character-set-server=utf8mb4',
+        '--collation-server=utf8mb4_general_ci',
+        '--max_connections=3000'
+    ]
+    networks:
+      extnetwork:
 networks:
   extnetwork:
     ipam:
       config:
-        - subnet: 172.26.0.1/16
+        - subnet: 172.18.0.1/16

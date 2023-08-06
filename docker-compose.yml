@@ -89,6 +89,18 @@ services:
     ]
     networks:
       extnetwork:
+  memos:
+    container_name: memos
+    image: ghcr.io/usememos/memos:latest
+    restart: always
+    ports:
+      - 5230:5230
+    volumes:
+      - /root/w/memos/data:/var/opt/memos
+    environment:
+      - TZ=Asia/Shanghai
+    networks:
+      extnetwork:
 networks:
   extnetwork:
     ipam:

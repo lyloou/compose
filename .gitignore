@@ -3,3 +3,5 @@
 mysql57/data
 redis/data
 minio
+mongo
+certbot

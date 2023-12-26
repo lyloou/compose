@@ -120,6 +120,26 @@ services:
       - TZ=Asia/Shanghai
     networks:
       extnetwork:
+  hitokoto_api:
+    image: hitokoto/api:release
+    container_name: hitokoto_api
+    environment:
+      NODE_ENV: production
+      # 服务配置
+      url: https://m.lyloou.com/motto # 请修改为您想要部署的域名
+      api_name: motto # 改一个好听的标识吧
+      requests.hosts: "['m.lyloou.com']" # 改成你想统计的主机名列表
+      redis.host: redis # Redis 连接地址，如果您使用本文件提供的 Redis 的话您无需修改此项
+      redis.port: 6379 # Redis 连接端口
+    ports:
+      - 5234:8000
+    links: 
+      - redis
+    restart: unless-stopped
+    volumes: 
+      - ./motto/api:/usr/src/app/data
+    networks:
+      extnetwork:
   minio:
     image: minio/minio:latest 
     container_name: minio 

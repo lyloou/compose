@@ -131,6 +131,7 @@ services:
       requests.hosts: "['m.lyloou.com']" # 改成你想统计的主机名列表
       redis.host: redis # Redis 连接地址，如果您使用本文件提供的 Redis 的话您无需修改此项
       redis.port: 6379 # Redis 连接端口
+      redis.password: lyloou06 # Redis 连接端口
     ports:
       - 5234:8000
     links: 

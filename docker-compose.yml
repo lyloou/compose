@@ -40,7 +40,6 @@ services:
       - 443:443
     volumes:
       - ./nginx/html/dist:/usr/share/nginx/html
-      - ./nginx/xiaokai:/usr/share/nginx/xiaokai
       - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/conf/conf.d:/etc/nginx/conf.d
       - /root/w/cert/fund.lyloou.com:/cert
@@ -102,12 +101,21 @@ services:
       extnetwork:
   memos:
     container_name: memos
-    image: ghcr.io/usememos/memos:latest
+    image: neosmemo/memos:0.14.4
     restart: always
     ports:
       - 5230:5230
     volumes:
       - /root/w/memos/data:/var/opt/memos
+    environment:
+      - TZ=Asia/Shanghai
+    networks:
+      extnetwork:
+  markdown:
+    container_name: markdown
+    image: nicejade/markdown-online-editor
+    ports:
+      - 8866:80
     environment:
       - TZ=Asia/Shanghai
     networks:
